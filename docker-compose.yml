@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  saythx-frontend:
+    build:
+      context: fe/.
+    image: liuzhiwang/saythx-fe
+    ports:
+      - "8088:80"
+    depends_on:
+      - saythx-backend
+    networks:
+      - saythx
+
+  saythx-backend:
+    build:
+      context: be/.
+    image: liuzhiwang/saythx-be
+    depends_on:
+      - saythx-redis
+    networks:
+      - saythx
+    environment:
+      - REDIS_HOST=saythx-redis
+    
+  saythx-work:
+    build:
+      context: work/.
+    image: liuzhiwang/saythx-work
+    depends_on:
+      - saythx-redis
+    networks:
+      - saythx
+    environment:
+      - REDIS_HOST=saythx-redis
+      - REDIS_PORT=6379
+
+  saythx-redis:
+    image: "redis"
+    networks:
+      - saythx
+
+networks:
+  saythx:

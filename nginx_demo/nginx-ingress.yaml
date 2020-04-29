@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+spec:
+  rules:
+  - host: ci-demo.xunlei.cn
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: nginx-scv
+          servicePort: 9999
